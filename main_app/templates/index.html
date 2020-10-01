@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="row">
+    {% for treasure in treasures %}
+    <div class="col-md-4">
+
+        <div class="treasure panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ treasure.name }}</h3>
+                {% if user.is_authenticated %}
+                <a class="panel-username" href="/user/{{request.user.username}}/">
+                    &nbsp;&nbsp;By : {{ treasure.user.username }}
+                </a>
+                {% else %}
+                    <a class="panel-username" href="/user/{{treasure.user.username}}/">
+                    &nbsp;&nbsp;By : {{ treasure.user.username }}
+                </a>
+                {% endif %}
+            </div>
+            <div class="panel-body">
+                <a href="/{{treasure.id}}/">
+                    <div class="treasure-photo">
+                        <img src="{{ treasure.image.url }}" width="202" height="200" alt="">
+                    </div>
+                </a>
+                {% if user.is_authenticated %}
+                <button id="likes" data-id="{{treasure.id}}"
+                        class="btn btn-mini btn-danger glyphicon glyphicon-heart"
+                        type="button">
+
+                    {% if treasure.likes > 0 %}
+                    {{ treasure.likes }} {% endif %}
+                </button>
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+    {% if forloop.counter|divisibleby:3 and not forloop.last %}
+</div>
+<div class="row">
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock %}

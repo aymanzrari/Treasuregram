@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="treasure panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{ treasure.name }}</h3>
+        <a class="panel-username" href="/user/{{treasure.user.username}}/">
+            &nbsp;&nbsp;By : {{ treasure.user.username }}
+        </a>
+    </div>
+    <div class="panel-body">
+        <div class="treasure-photo">
+            <img src="{{ treasure.image.url }}" height="200">
+        </div>
+        <table class="treasure-table">
+            <tr>
+                <th>
+                    <img src="{% static 'imgs/material-icon.png' %}"/>
+                    Material :
+                </th>
+                <td>{{ treasure.material }}</td>
+            </tr>
+            <tr>
+                <th>
+                    <img src="{% static 'imgs/value-icon.png' %}"/>
+                    Value :
+                </th>
+                <td>
+                    {% if treasure.value > 0 %}
+                    {{ treasure.value }}
+                    {% else %}
+                    Unknown
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <img src="{% static 'imgs/location-icon.png' %}"/>
+                    location :
+                </th>
+                <td>
+                    {{ treasure.location }}
+                </td>
+            </tr>
+        </table>
+         {% if user.is_authenticated %}
+        <button id="likes" data-id="{{treasure.id}}"
+                class="btn btn-mini btn-danger glyphicon glyphicon-heart"
+                type="button">
+            {% if treasure.likes > 0 %}
+            {{ treasure.likes }} {% endif %}
+        </button>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
